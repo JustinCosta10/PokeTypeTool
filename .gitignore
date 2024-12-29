@@ -1,1 +1,19 @@
 .env
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# macOS Finder metadata
+Icon?
+._*
+
+# macOS Thumbnail cache files
+*.Spotlight-V100
+*.Trashes
+
+# Temporary files created by macOS
+*.swp
+*.lock
+*.envrc
