@@ -1,12 +1,7 @@
 from Pokemon import Pokemon
 import poke_db
 import dex_api
-
-pokemon_types = [
-"normal", "fire", "water", "electric", "grass", "ice",
-"fighting", "poison", "ground", "flying", "psychic", "bug",
-"rock", "ghost", "dragon", "dark", "steel", "fairy"
-]
+import types
 
 def main():
     # connecting to DB. Passing variable conn into db functions as parameter db_connection
