@@ -1,83 +1,101 @@
 pokemon_types = ["normal", "fire", "water", "electric", "grass", "ice", "fighting", "poison", "ground", "flying", "psychic", "bug", "rock", "ghost", "dragon", "dark", "steel", "fairy"]
 
-# Rows represent attacking types, Columns represent defending types
+# For reference checking while building program. Negatives and None make chart unreadably messy.
 # 0 = standard, 1 = ineffective, 2 = super effective, 3 = immune
-attacking_types = (
-    #0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 0, 0, 1, 0], #Normal Row     0
-    [0, 1, 1, 0, 2, 2, 0, 0, 0, 0, 0, 2, 1, 0, 1, 0, 2, 0], #Fire Row       1
-    [0, 2, 1, 0, 1, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0, 0, 0], #Water Row      2
-    [0, 0, 2, 1, 1, 0, 0, 0, 3, 2, 0, 0, 0, 0, 1, 0, 0, 0], #Electric Row   3
-    [0, 1, 2, 0, 1, 0, 0, 1, 2, 1, 0, 1, 2, 0, 1, 0, 1, 0], #Grass Row      4
-    [0, 1, 1, 0, 2, 1, 0, 0, 2, 2, 0, 0, 0, 0, 2, 0, 1, 0], #Ice Row        5
-    [2, 0, 0, 0, 0, 2, 0, 1, 0, 1, 1, 1, 2, 3, 0, 2, 2, 1], #Fighting Row   6
-    [0, 0, 0, 0, 2, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 3, 2], #Poison Row     7
-    [0, 2, 0, 2, 1, 0, 0, 2, 0, 3, 0, 1, 2, 0, 0, 0, 2, 0], #Ground Row     8
-    [0, 0, 0, 1, 2, 0, 2, 0, 0, 0, 0, 2, 1, 0, 0, 0, 1, 0], #Flying Row     9
-    [0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 0, 3, 1, 0], #Psychic Row    10
-    [0, 1, 0, 0, 2, 0, 1, 1, 0, 1, 2, 0, 0, 1, 0, 2, 1, 1], #Bug Row        11
-    [0, 2, 0, 0, 0, 2, 1, 0, 1, 2, 0, 2, 0, 0, 0, 0, 1, 0], #Rock Row       12
-    [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 1, 0, 0], #Ghost Row      13
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 3], #Dragon Row     14
-    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 2, 0, 1, 0, 1], #Dark Row       15
-    [0, 1, 1, 1, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 2], #Steel Row      16
-    [0, 1, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 2, 2, 1, 0]  #Fairy Row      17
-    )
-
+#attacking_types = (
+#    #0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17
+#    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 0, 0, 1, 0], #Normal Row     0
+#    [0, 1, 1, 0, 2, 2, 0, 0, 0, 0, 0, 2, 1, 0, 1, 0, 2, 0], #Fire Row       1
+#    [0, 2, 1, 0, 1, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0, 0, 0], #Water Row      2
+#    [0, 0, 2, 1, 1, 0, 0, 0, 3, 2, 0, 0, 0, 0, 1, 0, 0, 0], #Electric Row   3
+#    [0, 1, 2, 0, 1, 0, 0, 1, 2, 1, 0, 1, 2, 0, 1, 0, 1, 0], #Grass Row      4
+#    [0, 1, 1, 0, 2, 1, 0, 0, 2, 2, 0, 0, 0, 0, 2, 0, 1, 0], #Ice Row        5
+#    [2, 0, 0, 0, 0, 2, 0, 1, 0, 1, 1, 1, 2, 3, 0, 2, 2, 1], #Fighting Row   6
+#    [0, 0, 0, 0, 2, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 3, 2], #Poison Row     7
+#    [0, 2, 0, 2, 1, 0, 0, 2, 0, 3, 0, 1, 2, 0, 0, 0, 2, 0], #Ground Row     8
+#    [0, 0, 0, 1, 2, 0, 2, 0, 0, 0, 0, 2, 1, 0, 0, 0, 1, 0], #Flying Row     9
+#    [0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 0, 3, 1, 0], #Psychic Row    10
+#    [0, 1, 0, 0, 2, 0, 1, 1, 0, 1, 2, 0, 0, 1, 0, 2, 1, 1], #Bug Row        11
+#    [0, 2, 0, 0, 0, 2, 1, 0, 1, 2, 0, 2, 0, 0, 0, 0, 1, 0], #Rock Row       12
+#    [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 1, 0, 0], #Ghost Row      13
+#    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 3], #Dragon Row     14
+#    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 2, 0, 1, 0, 1], #Dark Row       15
+#    [0, 1, 1, 1, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 2], #Steel Row      16
+#    [0, 1, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 2, 2, 1, 0]  #Fairy Row      17
+#    )
+# Transposed to more quickly access defending type matchup without unneccessary looping
+# Used actual intended values for the chart to work well for type math
 defending_types = (
-    [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
-    [0, 1, 2, 0, 1, 1, 0, 0, 2, 0, 0, 1, 2, 0, 0, 0, 1, 1],
-    [0, 1, 1, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-    [0, 0, 0, 1, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 1, 0],
-    [0, 2, 1, 1, 1, 2, 0, 2, 1, 2, 0, 2, 0, 0, 0, 0, 0, 0],
-    [0, 2, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 1, 0, 0, 1, 0, 2],
-    [0, 0, 0, 0, 1, 0, 1, 1, 2, 0, 2, 1, 0, 0, 0, 0, 0, 1],
-    [0, 0, 2, 3, 2, 2, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 2, 1, 2, 1, 0, 3, 0, 0, 1, 2, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2, 0, 2, 0, 0],
-    [0, 2, 0, 0, 1, 0, 1, 0, 1, 2, 0, 0, 2, 0, 0, 0, 0, 0],
-    [1, 1, 2, 0, 2, 0, 2, 1, 2, 1, 0, 0, 0, 0, 0, 0, 2, 0],
-    [3, 0, 0, 0, 0, 0, 3, 1, 0, 0, 0, 1, 0, 2, 0, 2, 0, 0],
-    [0, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2],
-    [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3, 2, 0, 1, 0, 1, 0, 2],
-    [1, 2, 0, 0, 1, 1, 2, 3, 2, 1, 1, 1, 1, 0, 1, 0, 1, 1],
-    [0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 1, 0, 0, 3, 1, 2, 0]
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, None, 0, 0, 0, 0],
+    [0, -1, 1, 0, -1, -1, 0, 0, 1, 0, 0, -1, 1, 0, 0, 0, -1, -1],
+    [0, -1, -1, 1, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0],
+    [0, 0, 0, -1, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0, -1, 0],
+    [0, 1, -1, -1, -1, 1, 0, 1, -1, 1, 0, 1, 0, 0, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0, -1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, -1, -1, 0, 0, -1, 0, 1],
+    [0, 0, 0, 0, -1, 0, -1, -1, 1, 0, 1, -1, 0, 0, 0, 0, 0, -1],
+    [0, 0, 1, None, 1, 1, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, -1, 1, -1, 0, None, 0, 0, -1, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, -1, 0, 0, 0, -1, 1, 0, 1, 0, 1, 0, 0],
+    [0, 1, 0, 0, -1, 0, -1, 0, -1, 1, 0, 0, 1, 0, 0, 0, 0, 0],
+    [-1, -1, 1, 0, 1, 0, 1, -1, 1, -1, 0, 0, 0, 0, 0, 0, 1, 0],
+    [None, 0, 0, 0, 0, 0, None, -1, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0],
+    [0, -1, -1, -1, -1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, None, 1, 0, -1, 0, -1, 0, 1],
+    [-1, 1, 0, 0, -1, -1, 1, None, 1, -1, -1, -1, -1, 0, -1, 0, -1, -1],
+    [0, 0, 0, 0, 0, 0, -1, 1, 0, 0, 0, -1, 0, 0, None, -1, 1, 0]
     )
 
 type_key = {
-    0: "Standard",
-    1: "Not very effective",
-    2: "Super effective",
-    3: "No damage"
+    -2: "1/4x",
+    -1: "1/2x",
+    0: "1x ",
+    1: "2x",
+    2: "4x",
+    None: "Immune"
 }
 
 def type_input_lowercase():
-    type_input = input("Enter the type: ")
+    type_input = input("Enter type: ")
     type_choice = type_input.lower()
     return type_choice
 
-def find_type_matchups(type):
-    try:
-        type_index = pokemon_types.index(type)
-        print("Offense:\n")
-        for col_index, type_value in enumerate(attacking_types[type_index]):
-            type_relationship = type_key.get(type_value, "No relationship found")
-            if(type_value != 0):
-                print(f"{pokemon_types[col_index].capitalize()}: {type_relationship}")
-        print("\n")
+def find_type_values(type1, type2 = None):
+    type1_index = pokemon_types.index(type1)
+    type1_array = defending_types[type1_index]
 
-        print("Defense\n")
-        for col_index, type_value in enumerate(defending_types[type_index]):
+    if type2 is None:
+        print(type1_array)
+        return type1_array
+
+    type2_index = pokemon_types.index(type2)
+    type2_array = defending_types[type2_index]
+    combined_type_array = []
+    for i in range (len(type1_array)):
+        if type1_array[i] is None or type2_array[i] is None:
+            combined_type_array.append(None)
+        else:
+            combined_type_array.append(type1_array[i] + type2_array[i])
+    print (combined_type_array)
+    return combined_type_array
+
+def find_type_matchups(type_matchups : list):
+    try:
+        print(f"Defense:\n")
+        for i, type_value in enumerate(type_matchups):
+            type_name = pokemon_types[i]
             type_relationship = type_key.get(type_value, "No relationship found")
-            if(type_value != 0):
-                print(f"{pokemon_types[col_index].capitalize()}: {type_relationship}")
+            print(f"{type_name}: {type_relationship}")
         print("\n")
     except Exception as e:
-        print(f"Invalid type. Error: {e}")
+        print(f"Error: {e}")
 
-type_choice = type_input_lowercase()
-find_type_matchups(type_choice)
+type_choice_1 = type_input_lowercase()
+type_choice_2 = type_input_lowercase()
+pokemon_type_values = find_type_values(type_choice_1, type_choice_2)
+pokemon_type_matchups = find_type_matchups(pokemon_type_values)
+print(pokemon_type_matchups)
+
 
 # Need to switch type numbers out. 0 should be standard, -1 should be not very effective, 1 should be super effective, and immune should be null or None
 # Then we can mathematically solve the type combinations strengths and weaknesses with these conditions:

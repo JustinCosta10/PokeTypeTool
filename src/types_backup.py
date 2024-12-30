@@ -23,7 +23,7 @@ attacking_types = (
     [0, 1, 1, 1, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 2], #Steel Row      16
     [0, 1, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 2, 2, 1, 0]  #Fairy Row      17
     )
-# Transposed to more quickly access defending type matchup without unneccessary looping
+
 defending_types = (
     [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
     [0, 1, 2, 0, 1, 1, 0, 0, 2, 0, 0, 1, 2, 0, 0, 0, 1, 1],
@@ -53,43 +53,31 @@ type_key = {
 }
 
 def type_input_lowercase():
-    type_input = input("Enter type: ")
+    type_input = input("Enter the type: ")
     type_choice = type_input.lower()
     return type_choice
 
-# need to either rewrite or heavily customize to combine the two types defensively
-def find_type_matchups(type1, type2 = None):
+def find_type_matchups(type):
     try:
-        type1_index = pokemon_types.index(type1)
-        display_type_1 = type1.capitalize()
+        type_index = pokemon_types.index(type)
+        print("Offense:\n")
+        for col_index, type_value in enumerate(attacking_types[type_index]):
+            type_relationship = type_key.get(type_value, "No relationship found")
+            if(type_value != 0):
+                print(f"{pokemon_types[col_index].capitalize()}: {type_relationship}")
+        print("\n")
 
-        print(f"{display_type_1} Defense:\n")
-        for col_index, type_value in enumerate(defending_types[type1_index]):
+        print("Defense\n")
+        for col_index, type_value in enumerate(defending_types[type_index]):
             type_relationship = type_key.get(type_value, "No relationship found")
             if(type_value != 0):
                 print(f"{pokemon_types[col_index].capitalize()}: {type_relationship}")
         print("\n")
     except Exception as e:
         print(f"Invalid type. Error: {e}")
-    if type2 is not None:
-        try:
-            type2_index = pokemon_types.index(type2)
-            display_type_2 = type2.capitalize()
-            print(f"{display_type_2} Defense:\n")
-            for col_index, type_value in enumerate(defending_types[type2_index]):
-                type_relationship = type_key.get(type_value, "No relationship found")
-                if(type_value != 0):
-                    print(f"{pokemon_types[col_index].capitalize()}: {type_relationship}")
-            print("\n")
-        except Exception as e:
-            print(f"Invalid type. Error: {e}")
 
-type_choice_1 = type_input_lowercase()
-type_choice_2 = type_input_lowercase()
-find_type_matchups(type_choice_1, type_choice_2)
-find_type_matchups("water")
-find_type_matchups("water", "poison")
-find_type_matchups("water", "bongo")
+type_choice = type_input_lowercase()
+find_type_matchups(type_choice)
 
 # Need to switch type numbers out. 0 should be standard, -1 should be not very effective, 1 should be super effective, and immune should be null or None
 # Then we can mathematically solve the type combinations strengths and weaknesses with these conditions:
