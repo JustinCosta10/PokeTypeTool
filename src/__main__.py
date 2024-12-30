@@ -1,7 +1,7 @@
 from Pokemon import Pokemon
 import poke_db
 import dex_api
-import types
+import poke_types
 
 def main():
     # connecting to DB. Passing variable conn into db functions as parameter db_connection
