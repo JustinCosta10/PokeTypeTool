@@ -1,5 +1,5 @@
 .env
-poke_db
+db/poke_db
 
 
 # macOS system files
