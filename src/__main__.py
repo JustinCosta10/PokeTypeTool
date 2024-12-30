@@ -50,16 +50,21 @@ def main():
         try:
             pokemon = dex_api.get_pokemon(pokemon_input)
         except Exception as e:
-            result_label.config(text=f"Error: {str(e)}")
+            result_label.config(text=f"API Error: {str(e)}")
 
         try:
             print(pokemon.types)
-            type1 = pokemon.types[0]
-            type2 = pokemon.types[1]
-            result = poke_types.create_type_list(type1, type2)
-            result_label.config(text=f"{result}")
+            if len(pokemon.types) == 2:
+                type1 = pokemon.types[0]
+                type2 = pokemon.types[1]
+                result = poke_types.create_type_list(type1, type2)
+                result_label.config(text=f"{result}")
+            if len(pokemon.types) == 1:
+                type1 = pokemon.types[0]
+                result = poke_types.create_type_list(type1)
+                result_label.config(text=f"{result}")
         except Exception as e:
-            result_label.config(text=f"Error: {str(e)}")
+            result_label.config(text=f"Type List Error: {str(e)}")
 
     button = tk.Button(root, text="Calculate Type Matchups", command=on_calculate)
     button.pack(pady=10)

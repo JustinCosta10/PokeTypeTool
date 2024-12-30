@@ -66,15 +66,14 @@ def type_input_lowercase():
 
 def find_type_values(type1_input, type2_input = None):
     type1 = type1_input.lower()
-    type2 = type2_input.lower()
     type1_index = pokemon_types.index(type1)
     type1_array = defending_types[type1_index]
 
-    if type2 is None:
+    if type2_input is None:
         print(type1_array)
         return type1_array
-    type2_san = type2.lower()
-
+    
+    type2 = type2_input.lower()
     type2_index = pokemon_types.index(type2)
     type2_array = defending_types[type2_index]
     combined_type_array = []
@@ -111,7 +110,11 @@ def find_type_matchups_print(type_values : list):
         print(f"Error: {e}")
 
 def create_type_list(type1, type2 = None):
-    type_values = find_type_values(type1, type2)
+    if type2 is None:
+        type_values = find_type_values(type1)
+        type_output = find_type_matchups(type_values)
+    else:
+        type_values = find_type_values(type1, type2)
     type_output = find_type_matchups(type_values)
     return type_output
 
