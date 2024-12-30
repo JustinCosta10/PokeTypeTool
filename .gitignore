@@ -1,4 +1,6 @@
 .env
+poke_db
+
 
 # macOS system files
 .DS_Store
