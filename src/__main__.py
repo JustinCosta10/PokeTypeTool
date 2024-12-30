@@ -42,28 +42,30 @@ def main():
     root.geometry("350x450")
 
     root.title("Poke Type Planner")
-    tk.Label(root, text="Type 1:").pack()
-    type_1_entry = tk.Entry(root, textvariable=type1_input)
-    type_1_entry.pack(pady=10)
-    tk.Label(root, text="Type 1:").pack()
-    type_2_entry = tk.Entry(root, textvariable=type2_input)
-    type_2_entry.pack(pady=10)
-
-
+    tk.Label(root, text="Pokemon:").pack()
+    pokemon_entry = tk.Entry(root, textvariable=type1_input)
+    pokemon_entry.pack(pady=10)
     def on_calculate():
-        type_1_input = type_1_entry.get()
-        type_2_input = type_2_entry.get()
+        pokemon_input = pokemon_entry.get()
+        try:
+            pokemon = dex_api.get_pokemon(pokemon_input)
+        except Exception as e:
+            result_label.config(text=f"Error: {str(e)}")
 
         try:
-            result = poke_types.create_type_list(type_1_input, type_2_input)
+            print(pokemon.types)
+            type1 = pokemon.types[0]
+            type2 = pokemon.types[1]
+            result = poke_types.create_type_list(type1, type2)
             result_label.config(text=f"{result}")
         except Exception as e:
             result_label.config(text=f"Error: {str(e)}")
 
-    button = tk.Button(root, text="Calculate", command=on_calculate)
+    button = tk.Button(root, text="Calculate Type Matchups", command=on_calculate)
     button.pack(pady=10)
     result_label = tk.Label(root)
     result_label.pack(pady=10)
     root.mainloop()
 if __name__ == "__main__":
     main()
+ß
