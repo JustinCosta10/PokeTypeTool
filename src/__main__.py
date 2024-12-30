@@ -2,9 +2,10 @@ from Pokemon import Pokemon
 import poke_db
 import dex_api
 import poke_types
+import tkinter as tk
 
-def main():
-    # connecting to DB. Passing variable conn into db functions as parameter db_connection
+def test():
+        # connecting to DB. Passing variable conn into db functions as parameter db_connection
     conn = poke_db.establish_db()
     cursor = conn.cursor()
     user_pokemon_input = input("Enter Pokemon: ")
@@ -23,5 +24,46 @@ def main():
         print(row)
     poke_db.delete_pokemon(pokemon, conn)
 
+def on_calculate():
+    type_1 = type_1_entry.get()
+    type_2 = type_2_entry.get()
+
+        # Call your existing function and update the result label
+    try:
+        result = poke_types.create_type_list(type_1, type_2)
+        result_label.config(text=f"Result: {result}")
+    except Exception as e:
+        result_label.config(text=f"Error: {str(e)}")
+
+def main():
+    root = tk.Tk()
+    type1_input = tk.StringVar()
+    type2_input = tk.StringVar()
+    root.geometry("350x450")
+
+    root.title("Poke Type Planner")
+    tk.Label(root, text="Type 1:").pack()
+    type_1_entry = tk.Entry(root, textvariable=type1_input)
+    type_1_entry.pack(pady=10)
+    tk.Label(root, text="Type 1:").pack()
+    type_2_entry = tk.Entry(root, textvariable=type2_input)
+    type_2_entry.pack(pady=10)
+
+
+    def on_calculate():
+        type_1_input = type_1_entry.get()
+        type_2_input = type_2_entry.get()
+
+        try:
+            result = poke_types.create_type_list(type_1_input, type_2_input)
+            result_label.config(text=f"{result}")
+        except Exception as e:
+            result_label.config(text=f"Error: {str(e)}")
+
+    button = tk.Button(root, text="Calculate", command=on_calculate)
+    button.pack(pady=10)
+    result_label = tk.Label(root)
+    result_label.pack(pady=10)
+    root.mainloop()
 if __name__ == "__main__":
     main()
