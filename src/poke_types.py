@@ -1,5 +1,4 @@
 pokemon_types = ["normal", "fire", "water", "electric", "grass", "ice", "fighting", "poison", "ground", "flying", "psychic", "bug", "rock", "ghost", "dragon", "dark", "steel", "fairy"]
-
 # For reference checking while building program. Negatives and None make chart unreadably messy.
 # 0 = standard, 1 = ineffective, 2 = super effective, 3 = immune
 #attacking_types = (
@@ -72,7 +71,7 @@ def find_type_values(type1_input, type2_input = None):
     if type2_input is None:
         print(type1_array)
         return type1_array
-    
+
     type2 = type2_input.lower()
     type2_index = pokemon_types.index(type2)
     type2_array = defending_types[type2_index]

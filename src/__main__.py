@@ -28,7 +28,6 @@ def on_calculate():
     type_1 = type_1_entry.get()
     type_2 = type_2_entry.get()
 
-        # Call your existing function and update the result label
     try:
         result = poke_types.create_type_list(type_1, type_2)
         result_label.config(text=f"Result: {result}")
@@ -44,7 +43,8 @@ def main():
     root.title("Poke Type Planner")
     tk.Label(root, text="Pokemon:").pack()
     pokemon_entry = tk.Entry(root, textvariable=type1_input)
-    pokemon_entry.pack(pady=10)
+    pokemon_entry.pack(pady=(10))
+
     def on_calculate():
         pokemon_input = pokemon_entry.get()
         try:
@@ -53,16 +53,12 @@ def main():
             result_label.config(text=f"API Error: {str(e)}")
 
         try:
-            print(pokemon.types)
             if len(pokemon.types) == 2:
-                type1 = pokemon.types[0]
-                type2 = pokemon.types[1]
-                result = poke_types.create_type_list(type1, type2)
-                result_label.config(text=f"{result}")
-            if len(pokemon.types) == 1:
-                type1 = pokemon.types[0]
-                result = poke_types.create_type_list(type1)
-                result_label.config(text=f"{result}")
+                result = poke_types.create_type_list(pokemon.types[0], pokemon.types[1])
+            else:
+                result = poke_types.create_type_list(pokemon.types[0])
+
+            result_label.config(text=f"{result}")
         except Exception as e:
             result_label.config(text=f"Type List Error: {str(e)}")
 
