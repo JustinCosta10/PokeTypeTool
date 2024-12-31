@@ -22,13 +22,13 @@ pokemon_types = ["normal", "fire", "water", "electric", "grass", "ice", "fightin
 #    [0, 1, 1, 1, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 2], #Steel Row      16
 #    [0, 1, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 2, 2, 1, 0]  #Fairy Row      17
 #    )
-# Transposed to more quickly access defending type matchup without unneccessary looping
+# Transposed to more quickly access defensive type matchups without unneccessary looping
 # Used actual intended values for the chart to work well for type math
 # Chose these numbers so that the dual type matchups could be mathematically determined
 # if type1 + type2 = 0 it is standard effectiveness
 # if type1 + type2 = 2 it is 4x effective
 # if type1 + type2 = null or TypeError the pokemon is immune, because one immune typing immunizes the type combination.
-defending_types = (
+types = (
     [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, None, 0, 0, 0, 0],
     [0, -1, 1, 0, -1, -1, 0, 0, 1, 0, 0, -1, 1, 0, 0, 0, -1, -1],
     [0, -1, -1, 1, 1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0],
@@ -52,7 +52,7 @@ defending_types = (
 type_key = {
     -2: "1/4x",
     -1: "1/2x",
-    0: "1x ",
+    0: "1x",
     1: "2x",
     2: "4x",
     None: "Immune"
@@ -66,7 +66,7 @@ def type_input_lowercase():
 def find_type_values(type1_input, type2_input = None):
     type1 = type1_input.lower()
     type1_index = pokemon_types.index(type1)
-    type1_array = defending_types[type1_index]
+    type1_array = types[type1_index]
 
     if type2_input is None:
         print(type1_array)
@@ -74,7 +74,7 @@ def find_type_values(type1_input, type2_input = None):
 
     type2 = type2_input.lower()
     type2_index = pokemon_types.index(type2)
-    type2_array = defending_types[type2_index]
+    type2_array = types[type2_index]
     combined_type_array = []
     for i in range (len(type1_array)):
         if type1_array[i] is None or type2_array[i] is None:
@@ -89,11 +89,9 @@ def find_type_matchups(type_values: list) -> str:
         output = []
         for i, type_value in enumerate(type_values):
             type_name = pokemon_types[i]
-            if type_value != 0:
-                type_relationship = type_key.get(type_value, "No relationship found")
-                output.append(f"{type_name.capitalize()}: {type_relationship}")
-        output.append("\n")
-        return "\n".join(output)
+            type_relationship = type_key.get(type_value, "No relationship found")
+            output.append(f"{type_relationship}")
+        return output
     except Exception as e:
         return f"Error: {e}"
 
