@@ -1,5 +1,7 @@
 .env
 db/poke_db
+__pycache__/
+*.py[cod]
 
 
 # macOS system files

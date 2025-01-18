@@ -2,6 +2,8 @@ import sqlite3
 import os
 from Pokemon import Pokemon
 
+#Not used at all in the current version, but may be used as features are added
+
 #Creates database, tables and inserts a test team
 def establish_db():
     conn = sqlite3.connect("../db/poke_db")
@@ -57,6 +59,9 @@ def insert_pokemon(pokemon: Pokemon, team_id, db_connection):
     except Exception as e:
         print(f"Unexpected error: {e}")
 
+# Parameters:
+# pokemon - takes an instance of the dataclass Pokemon
+# db_connection - The current database connection passed in to avoid redundant connections
 def delete_pokemon(pokemon: Pokemon, db_connection):
     try:
         conn = db_connection

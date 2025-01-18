@@ -63,6 +63,9 @@ def type_input_lowercase():
     type_choice = type_input.lower()
     return type_choice
 
+#Parameters:
+#type_1 input - the first type of the pokemon
+#type_2 input - the second type of the pokemon, defaulting to None for single types
 def find_type_values(type1_input, type2_input = None):
     type1 = type1_input.lower()
     type1_index = pokemon_types.index(type1)
@@ -83,7 +86,8 @@ def find_type_values(type1_input, type2_input = None):
             combined_type_array.append(type1_array[i] + type2_array[i])
     print (combined_type_array)
     return combined_type_array
-
+#Parameters:
+#type_values - a list of all of the values after the math has been calculated
 def find_type_matchups(type_values: list) -> str:
     try:
         output = []
