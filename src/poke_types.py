@@ -27,7 +27,7 @@ pokemon_types = ["normal", "fire", "water", "electric", "grass", "ice", "fightin
 # Chose these numbers so that the dual type matchups could be mathematically determined
 # if type1 + type2 = 0 it is standard effectiveness
 # if type1 + type2 = 2 it is 4x effective
-# if type1 + type2 = null or TypeError the pokemon is immune, because one immune typing immunizes the type combination.
+# if type1 + type2 = null or TypeError the pokemon is immune
 types = (
     [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, None, 0, 0, 0, 0],
     [0, -1, 1, 0, -1, -1, 0, 0, 1, 0, 0, -1, 1, 0, 0, 0, -1, -1],

@@ -6,6 +6,8 @@ from Pokemon import Pokemon
 import poke_db
 import dex_api
 import poke_types
+import json
+import os
 
 import tkinter as tk
 from PIL import Image, ImageTk
@@ -14,6 +16,8 @@ from io import BytesIO
 
 class PokeTypePlanner:
     def __init__(self, root):
+        # Load Pokemon data for autocomplete
+        self.load_pokemon_data()
         self.pokemon_types = [
         "Normal", "Fire", "Water", "Electric", "Grass", "Ice",
         "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug",
@@ -45,11 +49,20 @@ class PokeTypePlanner:
 
         # Input Variables for Text Boxes
         self.pokemon_input = tk.StringVar()
+        self.pokemon_input.trace_add('write', self.on_text_change)
 
         # Widgets ###
         # Pokemon Entry Widget - Text Box
         self.pokemon_entry = tk.Entry(root, textvariable=self.pokemon_input, highlightthickness=0)
         self.pokemon_entry.grid(row=1, column=0, columnspan=2, pady=1)
+        
+        # Autocomplete Listbox (initially hidden)
+        self.autocomplete_frame = tk.Frame(root)
+        self.autocomplete_listbox = tk.Listbox(self.autocomplete_frame, height=6, width=20)
+        self.autocomplete_listbox.bind('<ButtonRelease-1>', self.on_select_pokemon)
+        self.autocomplete_listbox.bind('<Return>', self.on_select_pokemon)
+        self.autocomplete_listbox.pack()
+        self.autocomplete_visible = False
 
         # Calculate Type Matchups - Finds all type matchups for the pokemon entered into text box
         self.button = tk.Button(root, text="Go", command=self.on_find_pokemon, relief="groove", font=("", 8, "bold"))
@@ -98,6 +111,59 @@ class PokeTypePlanner:
             )
 
             self.canvas_list.append((canvas, corner_text))
+
+    def load_pokemon_data(self):
+        """Load Pokemon names from the local JSON file for autocomplete"""
+        try:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            json_path = os.path.join(script_dir, 'pokemon_data.json')
+            with open(json_path, 'r') as f:
+                pokemon_data = json.load(f)
+            self.pokemon_names = [pokemon['name'].capitalize() for pokemon in pokemon_data]
+        except Exception as e:
+            print(f"Could not load Pokemon data: {e}")
+            self.pokemon_names = []
+
+    def on_text_change(self, *args):
+        """Handle text changes in the search box for autocomplete"""
+        current_text = self.pokemon_input.get().lower()
+        
+        if len(current_text) < 2:
+            self.hide_autocomplete()
+            return
+            
+        # Filter Pokemon names that start with the current text
+        matches = [name for name in self.pokemon_names if name.lower().startswith(current_text)][:10]
+        
+        if matches:
+            self.show_autocomplete(matches)
+        else:
+            self.hide_autocomplete()
+
+    def show_autocomplete(self, matches):
+        """Show the autocomplete dropdown with matching Pokemon"""
+        self.autocomplete_listbox.delete(0, tk.END)
+        for match in matches:
+            self.autocomplete_listbox.insert(tk.END, match)
+        
+        if not self.autocomplete_visible:
+            self.autocomplete_frame.grid(row=2, column=0, columnspan=2, sticky='ew', padx=2)
+            self.autocomplete_visible = True
+
+    def hide_autocomplete(self):
+        """Hide the autocomplete dropdown"""
+        if self.autocomplete_visible:
+            self.autocomplete_frame.grid_remove()
+            self.autocomplete_visible = False
+
+    def on_select_pokemon(self, event):
+        """Handle Pokemon selection from autocomplete"""
+        selection = self.autocomplete_listbox.curselection()
+        if selection:
+            selected_pokemon = self.autocomplete_listbox.get(selection[0])
+            self.pokemon_input.set(selected_pokemon)
+            self.hide_autocomplete()
+            self.on_find_pokemon()
 
     def on_find_pokemon(self):
         pokemon_input = self.pokemon_input.get()
