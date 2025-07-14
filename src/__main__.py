@@ -46,6 +46,16 @@ class PokeTypePlanner:
         self.root = root
         self.root.geometry("350x2000")
         self.root.title("Poke Type Planner")
+        
+        # Define better font families
+        self.fonts = {
+            'title': ('Helvetica', 16, 'bold'),
+            'entry': ('Arial', 11),
+            'button': ('Arial', 10, 'bold'),
+            'type_name': ('Arial', 10, 'bold'),
+            'type_effect': ('Arial', 9, 'bold'),
+            'autocomplete': ('Arial', 10)
+        }
 
         # Input Variables for Text Boxes
         self.pokemon_input = tk.StringVar()
@@ -53,19 +63,22 @@ class PokeTypePlanner:
 
         # Widgets ###
         # Pokemon Entry Widget - Text Box
-        self.pokemon_entry = tk.Entry(root, textvariable=self.pokemon_input, highlightthickness=0)
+        self.pokemon_entry = tk.Entry(root, textvariable=self.pokemon_input, 
+                                     font=self.fonts['entry'], highlightthickness=0)
         self.pokemon_entry.grid(row=1, column=0, columnspan=2, pady=1)
         
         # Autocomplete Listbox (initially hidden)
         self.autocomplete_frame = tk.Frame(root)
-        self.autocomplete_listbox = tk.Listbox(self.autocomplete_frame, height=6, width=20)
+        self.autocomplete_listbox = tk.Listbox(self.autocomplete_frame, height=6, width=20,
+                                              font=self.fonts['autocomplete'])
         self.autocomplete_listbox.bind('<ButtonRelease-1>', self.on_select_pokemon)
         self.autocomplete_listbox.bind('<Return>', self.on_select_pokemon)
         self.autocomplete_listbox.pack()
         self.autocomplete_visible = False
 
         # Calculate Type Matchups - Finds all type matchups for the pokemon entered into text box
-        self.button = tk.Button(root, text="Go", command=self.on_find_pokemon, relief="groove", font=("", 8, "bold"))
+        self.button = tk.Button(root, text="Go", command=self.on_find_pokemon, 
+                               relief="groove", font=self.fonts['button'])
         self.button.grid(row=1, column=0, columnspan=2, pady=(0,5), padx=(135,0))
 
         # Pokemon Sprite - Reserve space for the sprite
@@ -103,11 +116,11 @@ class PokeTypePlanner:
             canvas.grid(row=starting_row + i, column=0, padx=2, pady=2)
             canvas.create_text(
                 square_size * 3, square_size // 2,
-                text=type_name, font=("", 10, "bold"), fill="black"
+                text=type_name, font=self.fonts['type_name'], fill="black"
             )
             corner_text = canvas.create_text(
                 square_size * 6 - 5, 5,  # Top-right corner
-                text="", font=("", 8, "italic"), fill="black", anchor="ne"
+                text="", font=self.fonts['type_effect'], fill="black", anchor="ne"
             )
 
             self.canvas_list.append((canvas, corner_text))
